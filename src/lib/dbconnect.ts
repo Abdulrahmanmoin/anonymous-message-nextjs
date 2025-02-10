@@ -1,6 +1,7 @@
+import { DB_NAME } from "@/constants";
 import mongoose from "mongoose";
 
-type ConnectionObject = {
+interface ConnectionObject {
     isConnected?: number
 }
 
@@ -13,8 +14,22 @@ async function dbConnect(): Promise<void> {
     }
 
     try {
-        await mongoose.connect()
-    } catch (error) {
+        const db = await mongoose.connect(`${process.env.MONGO_URI}/${DB_NAME}` || "")
+
+        // console.log(db);
+
+        connection.isConnected = db.connections[0].readyState
+
+        console.log("DB connected successfully");
         
+
+    } catch (error) {
+
+        console.log("DB connection failed: ", error);
+        
+
+        process.exit(1)
     }
 }
+
+export default dbConnect;
