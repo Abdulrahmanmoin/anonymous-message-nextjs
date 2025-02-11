@@ -38,13 +38,23 @@ export async function POST() {
             }
         ]).exec();
 
-        if (!user || user.length === 0) {
+        if (!user) {
             return NextResponse.json(
                 {
                     success: false,
                     message: "User not found"
                 },
                 { status: 400 }
+            )
+        }
+
+        if (user.length === 0) {
+            return NextResponse.json(
+                {
+                    success: true,
+                    message: "Messages not found"
+                },
+                { status: 200 }
             )
         }
 
