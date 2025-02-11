@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
 
-export default function signUp() {
+export default function SignUp() {
 
   const [username, setUsername] = useState('')
   const [usernameMessage, setUsernameMessage] = useState('')

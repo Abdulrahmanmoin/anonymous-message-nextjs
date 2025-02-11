@@ -36,9 +36,7 @@ export default function MessageCard({ message, onMessageDelete }: MessageCardPro
       title: response.data?.message,
     })
 
-    // @ts-ignore
-    onMessageDelete(message._id)
-    
+    onMessageDelete(message._id as string)    
   }
 
   return (

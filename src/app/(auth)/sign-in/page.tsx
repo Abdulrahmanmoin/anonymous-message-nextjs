@@ -5,9 +5,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
 import { signInSchema } from '@/schemas/signInSchema'
-import { ApiResponse } from '@/types/ApiResponse'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AxiosError } from 'axios'
 import { Loader2 } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
@@ -16,7 +14,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-export default function signin() {
+export default function Signin() {
 
     const { toast } = useToast()
     const router = useRouter()
@@ -46,11 +44,13 @@ export default function signin() {
             
             console.error("Error in login a user: ", result)
 
+
             toast({
                 title: "Login Failed",
                 description: result.error,
                 variant: "destructive"
             })
+
         }
 
         if (result?.url) {

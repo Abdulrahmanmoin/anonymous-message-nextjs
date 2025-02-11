@@ -159,6 +159,7 @@ export default function SendMessage(props: SendMessagePageProps) {
           <Button
             type="button"
             onClick={fetchSuggestedMessages}
+            disabled={isSuggestLoading}
           >
             Suggest More Messages
           </Button>

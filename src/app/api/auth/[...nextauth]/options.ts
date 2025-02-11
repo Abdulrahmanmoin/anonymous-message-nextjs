@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs"
 import dbConnect from "@/lib/dbconnect";
@@ -10,10 +10,14 @@ export const authOptions: NextAuthOptions = {
             id: "credentials",
             name: "Credentials",
             credentials: {
-                email: { label: "Email", type: "email" },
+                identifier: { label: "Email/Username", type: "text" },
                 password: { label: "Password", type: "password" }
             },
-            async authorize(credentials: any): Promise<any> {
+            async authorize(credentials): Promise<User> {
+
+                 if (!credentials?.identifier || !credentials?.password) {
+                    throw new Error("Missing email or password");
+                }
 
                 await dbConnect()
                 
@@ -26,7 +30,7 @@ export const authOptions: NextAuthOptions = {
                     })
 
                     if (!user) {
-                        throw new Error("No user found with this email")
+                        throw new Error("No user found with this email or username")
                     }
 
                     if (!user.isVerified) {
@@ -36,14 +40,17 @@ export const authOptions: NextAuthOptions = {
                     const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password)
 
                     if (isPasswordCorrect) {
-                        return user
+                        return user as User
                     } else {
                         throw new Error("Incorrect Password!")
 
                     }
 
-                } catch (err: any) {
-                    throw new Error(err)
+                } catch (err) {
+                    if (err instanceof Error) {
+                        throw new Error(err.message);
+                    }
+                    throw new Error("An unknown error occurred.");
                 }
             }
         })
