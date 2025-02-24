@@ -18,7 +18,7 @@ export default function Navbar() {
 
             <div className="hidden container mx-auto sm:flex sm:flex-row justify-between items-center">
                 <Link href="/" className="text-xl font-bold mb-4 sm:mb-0">
-                    Mystry Message
+                    Faceless Message
                 </Link>
                 {
                     session ? (

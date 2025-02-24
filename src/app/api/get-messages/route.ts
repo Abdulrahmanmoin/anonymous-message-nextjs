@@ -38,6 +38,8 @@ export async function POST() {
             }
         ]).exec();
 
+        console.log("user: ", user);
+
         if (!user) {
             return NextResponse.json(
                 {

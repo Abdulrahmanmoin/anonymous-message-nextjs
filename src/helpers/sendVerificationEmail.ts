@@ -1,6 +1,7 @@
-import { resend } from "@/lib/resend";
-import VerificationEmail from "../../emails/VerificationEmail";
+import sgMail from "@/lib/sendGrid";
 import { ApiResponse } from "@/types/ApiResponse";
+import { render } from "@react-email/components"; 
+import VerificationEmail from "../../emails/VerificationEmail";
 
 export async function sendVerificationEmail(
     email: string,
@@ -8,18 +9,21 @@ export async function sendVerificationEmail(
     verifyCode: string
 ): Promise<ApiResponse> {
     try {
+        const htmlContent = await render(VerificationEmail({ username, otp: verifyCode }));
 
-        await resend.emails.send({
-            from: 'onboarding@resend.dev',
+        const msg = {
             to: email,
-            subject: 'Mystery Message: Verification Code',
-            react: VerificationEmail({ username, otp: verifyCode }),
-        });
+            from: process.env.SENDGRID_SENDER_EMAIL!,
+            subject: "Faceless Message: Verification Code",
+            html: htmlContent,
+        };
 
-        console.log("Verification email send successfully");
-        return { success: true, message: "Verification email send successfully"}
-    } catch (emailError) {
-        console.error("Error while sending email: ", emailError);
-        return { success: false, message: "Failed to send verification email" }
+        await sgMail.send(msg);
+
+        console.log("Verification email sent successfully");
+        return { success: true, message: "Verification email sent successfully" };
+    } catch (error) {
+        console.error("Error sending email:", error);
+        return { success: false, message: "Failed to send verification email" };
     }
 }
