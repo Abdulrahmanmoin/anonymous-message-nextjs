@@ -44,7 +44,7 @@ export default function Navbar() {
             <div>
                 <div className="flex container mx-auto sm:hidden justify-between items-start">
                     <Link href="/" className="text-lg font-bold mb-4">
-                        Mystry Message
+                    Faceless Message
                     </Link>
                     {
                         session ? (
