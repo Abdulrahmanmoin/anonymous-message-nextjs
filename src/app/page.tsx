@@ -63,8 +63,8 @@ export default function Home() {
               ))
             }
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="hidden sm:block text-center p-2" />
+          <CarouselNext className="hidden sm:block text-center p-2" />
         </Carousel>
       </main>
 

@@ -66,13 +66,15 @@ export default function Navbar() {
 
                 </div>
 
-                <div className='sm:hidden text-center'>
-                    <span className="mr-4">Welcome, {
-                        session ?
-                            user.username || user.email
-                            : ""
-                    }</span>
-                </div>
+                {session && (
+                    <div className='sm:hidden text-center'>
+                        <span className="mr-4">Welcome, {
+                            session ?
+                                user.username || user.email
+                                : ""
+                        }</span>
+                    </div>
+                )}
             </div>
         </nav>
     )
